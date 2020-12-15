@@ -40,17 +40,17 @@ public class textAnalysis {
             System.out.println(sortedSet);
         }
         void decreasingLengthLimited(SortedSet<String> sortedSet){
-            TreeSet<String> sortedSet1 = new TreeSet<String>(Comparator.comparing(String::length));
+            TreeSet<String> sortedSet2 = new TreeSet<>();
+            //TreeSet<String> sortedSet1 = new TreeSet<String>(Comparator.comparing(String::length));
             for (String i : sortedSet){
-                if (i.length()>=4&&i.length()<=7) sortedSet.add(i);
+                if (i.length()>=4&&i.length()<=7) sortedSet2.add(i);
             }
         }
-
     }
 }
 class Second{
     void countUniqueWords(List<String> words){
-        
+
     }
 }
 
