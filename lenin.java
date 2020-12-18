@@ -47,7 +47,6 @@ class First {
         }
     }
 }
-
 class Second{
     void countUniqueWords(List<String> words){
         Set<String> wordsSet = new HashSet<String>(words);
@@ -116,10 +115,13 @@ class Five {
         decreasingValues(treeMap);
     }
     void decreasingValues(TreeMap<Character,Integer> treeMap){
-        TreeMap<Integer,Character> sortedTreeMap = new TreeMap<>();
-        for (int i =0; i<treeMap.size();i++){
-            
+        TreeMap<Integer,Character> sortedTreeMap = new TreeMap<>(Collections.reverseOrder());
+        for(Map.Entry<Character, Integer> item : treeMap.entrySet()){
+            char key = item.getKey();
+            int value = item.getValue();
+            sortedTreeMap.put(value,key);
         }
+        System.out.println(sortedTreeMap);
     }
 }
 class Lenin {
