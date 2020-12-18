@@ -15,8 +15,10 @@ public class textAnalysis {
 //        TreeMap<String,Integer> treeMap = Second.countUniqueWordsButMap(words);
 //        TreeMap<String, Integer> trmap = Second.countUniqueWordsButMapLimited(treeMap);
 //        Second.countUniqueWordsButMapLimitedLexicographical(trmap);
-        new Three();
-        Three.mapping(words);
+//        new Three();
+//        Three.mapping(words);
+//        new Four().symbolsInText(words);
+        new Five().split(words);
     }
 }
 class First {
@@ -92,7 +94,32 @@ class Three {
 }
 class Four{
     void symbolsInText(List<String> words){
-        
+        int COUNT=0;
+        for (String s:words) COUNT++;
+        System.out.println(COUNT + "символов");
+    }
+}
+class Five {
+    void split(List<String> words) {
+        TreeMap<Character, Integer> treeMap = new TreeMap<>();//символ - количество использований
+        for (String s : words) {//берем слово
+            for (int i = 0; i < s.length(); i++) {
+                char ch = s.charAt(i);//берем букову
+                if (treeMap.containsKey(ch)){//если была букова
+                    int count = treeMap.get(ch);
+                    treeMap.put(ch,++count);//добавляем в использование
+                }
+                else treeMap.put(ch,0);
+            }
+        }
+        System.out.println(treeMap);//ВЫВОДИТСЯ В ЛЕКСИКОГРАФИЧЕСКОМ ПОРЯДКЕ, ЗАДАНИЕ 5А ВЫПОЛНЯЕТСЯ ПАРАЛЛЕЛЬНО
+        decreasingValues(treeMap);
+    }
+    void decreasingValues(TreeMap<Character,Integer> treeMap){
+        TreeMap<Integer,Character> sortedTreeMap = new TreeMap<>();
+        for (int i =0; i<treeMap.size();i++){
+            
+        }
     }
 }
 class Lenin {
