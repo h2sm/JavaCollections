@@ -11,10 +11,12 @@ public class textAnalysis {
         List<String> words = Lenin.getWords();
         LinkedHashSet<String> x = new First().withoutCapital(words);
         //new First().decreasingLength(x);
-        new Second();
-        TreeMap<String,Integer> treeMap = Second.countUniqueWordsButMap(words);
-        TreeMap<String, Integer> trmap = Second.countUniqueWordsButMapLimited(treeMap);
-        Second.countUniqueWordsButMapLimitedLexicographical(trmap);
+//        new Second();
+//        TreeMap<String,Integer> treeMap = Second.countUniqueWordsButMap(words);
+//        TreeMap<String, Integer> trmap = Second.countUniqueWordsButMapLimited(treeMap);
+//        Second.countUniqueWordsButMapLimitedLexicographical(trmap);
+        new Three();
+        Three.mapping(words);
     }
 }
 class First {
@@ -69,12 +71,27 @@ class Second{
         return treeMap1;
     }
     static void countUniqueWordsButMapLimitedLexicographical(TreeMap<String,Integer>treeMap){
-        //SortedMap<String, Integer> sortedMap = new SortedMap<String, Integer>();
         TreeMap<String,Integer> treeMap1 = new TreeMap<>(String::compareToIgnoreCase);
     }
 }
-class Three{
-    void mapping(List<String> words){
+class Three {
+    static void mapping(List<String> words) {
+        TreeMap<Integer, Integer> treeMap = new TreeMap<>();//длина слова - количество использований
+        for (String s : words){//перебираем слова
+            int iter = 0;
+            if (!treeMap.containsKey(s.length())){//если данной длины не было в ключах
+                for (int i =0; i< words.size();i++){//то бежим по массиву
+                    if (s.length() == words.get(i).length()){//сравниваем нужные длинны
+                        treeMap.put(s.length(),++iter);//записываем
+                        System.out.println(treeMap);
+                    }
+                }
+            }
+        }
+    }
+}
+class Four{
+    void symbolsInText(List<String> words){
         
     }
 }
