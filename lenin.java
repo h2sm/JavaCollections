@@ -16,9 +16,10 @@ public class textAnalysis {
 //        TreeMap<String, Integer> trmap = Second.countUniqueWordsButMapLimited(treeMap);
 //        Second.countUniqueWordsButMapLimitedLexicographical(trmap);
 //        new Three();
-//        Three.mapping(words);
-//        new Four().symbolsInText(words);
-        new Five().split(words);
+//        TreeMap<Integer,Integer> myMap = Three.mapping(words);
+       new Four().symbolsInText(words);
+//        new Five().split(words);
+//        new Sixth().mostUsed(myMap, words);
     }
 }
 class First {
@@ -76,7 +77,7 @@ class Second{
     }
 }
 class Three {
-    static void mapping(List<String> words) {
+    static TreeMap<Integer,Integer> mapping(List<String> words) {
         TreeMap<Integer, Integer> treeMap = new TreeMap<>();//длина слова - количество использований
         for (String s : words){//перебираем слова
             int iter = 0;
@@ -84,18 +85,24 @@ class Three {
                 for (int i =0; i< words.size();i++){//то бежим по массиву
                     if (s.length() == words.get(i).length()){//сравниваем нужные длинны
                         treeMap.put(s.length(),++iter);//записываем
-                        System.out.println(treeMap);
                     }
                 }
             }
         }
+        System.out.println(treeMap);
+        return treeMap;
     }
 }
 class Four{
     void symbolsInText(List<String> words){
         int COUNT=0;
-        for (String s:words) COUNT++;
-        System.out.println(COUNT + "символов");
+        for (String s:words){
+            for (int i = 0; i < s.length(); i++) {
+                //char ch = s.charAt(i);//берем букову
+                COUNT++;
+            }
+        }
+        System.out.println(COUNT + " символов");
     }
 }
 class Five {
@@ -122,6 +129,17 @@ class Five {
             sortedTreeMap.put(value,key);
         }
         System.out.println(sortedTreeMap);
+    }
+}
+class Sixth{
+    void mostUsed(TreeMap<Integer, Integer> treeMap, List<String> words){
+        ArrayList<String> mostUsedWords = new ArrayList<>();
+        for(Map.Entry<Integer, Integer> item : treeMap.entrySet()){
+            int length = item.getKey();//достаем длину (никакого китайского программирования, только готовые решения
+            for (int i=0; i< words.size();i++){
+                //if (length == wo)
+            }
+        }
     }
 }
 class Lenin {
