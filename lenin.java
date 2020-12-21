@@ -11,15 +11,16 @@ public class textAnalysis {
         List<String> words = Lenin.getWords();
         LinkedHashSet<String> x = new First().withoutCapital(words);
         //new First().decreasingLength(x);
-//        new Second();
-//        TreeMap<String,Integer> treeMap = Second.countUniqueWordsButMap(words);
-//        TreeMap<String, Integer> trmap = Second.countUniqueWordsButMapLimited(treeMap);
+//       new Second();
+//       TreeMap<String,Integer> treeMap = Second.countUniqueWordsButMap(words);
+//       TreeMap<String, Integer> trmap = Second.countUniqueWordsButMapLimited(treeMap);
 //        Second.countUniqueWordsButMapLimitedLexicographical(trmap);
 //        new Three();
 //        TreeMap<Integer,Integer> myMap = Three.mapping(words);
-       new Four().symbolsInText(words);
-//        new Five().split(words);
-//        new Sixth().mostUsed(myMap, words);
+//       new Four().symbolsInText(words);
+//       new Five().split(words);
+        new Sixth().mostUsed(words);
+
     }
 }
 class First {
@@ -131,17 +132,32 @@ class Five {
         System.out.println(sortedTreeMap);
     }
 }
-class Sixth{
-    void mostUsed(TreeMap<Integer, Integer> treeMap, List<String> words){
-        ArrayList<String> mostUsedWords = new ArrayList<>();
-        for(Map.Entry<Integer, Integer> item : treeMap.entrySet()){
-            int length = item.getKey();//достаем длину (никакого китайского программирования, только готовые решения
-            for (int i=0; i< words.size();i++){
-                //if (length == wo)
+class Sixth {
+
+
+    void mostUsed(List<String> words) {
+        TreeMap<Integer, TreeMap<Integer, String>> multimap = new TreeMap<>();//отображение "длина - количество использования - слово"
+        for (String s : words) {//начальное слово
+            int sLength = s.length();//берем длину слова
+            s = s.toLowerCase(Locale.getDefault());
+
+            TreeMap<Integer, String> mostCommonWords = new TreeMap<>(Collections.reverseOrder());//"самые популярные слова"
+            if (!multimap.containsKey(sLength)){
+                for (String word : words){
+                    if (word.length() == sLength && mostCommonWords.size()!=15 ){
+                        word = word.toLowerCase();
+                        mostCommonWords.put(Collections.frequency(words, word), word);
+                    }
+                }
+                multimap.put(sLength,mostCommonWords);
+                System.out.println(multimap);
             }
         }
     }
 }
+
+
+
 class Lenin {
 
     static List<String> getWords() throws IOException {
