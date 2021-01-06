@@ -9,76 +9,74 @@ public class textAnalysis {
     public static void main(String[] args) throws IOException {
         new Lenin();//а где старый
         List<String> words = Lenin.getWords();
-        LinkedHashSet<String> x = new First().withoutCapital(words);
-        //new First().decreasingLength(x);
-//       new Second();
-//       TreeMap<String,Integer> treeMap = Second.countUniqueWordsButMap(words);
-//       TreeMap<String, Integer> trmap = Second.countUniqueWordsButMapLimited(treeMap);
-//        Second.countUniqueWordsButMapLimitedLexicographical(trmap);
-//        new Three();
-//        TreeMap<Integer,Integer> myMap = Three.mapping(words);
-//       new Four().symbolsInText(words);
-//       new Five().split(words);
+        new First().withoutCapital(words);
+        new Second().countUniqueWords(words);
+        new Second().countUniqueWordsButMap(words);
+        new Three().mapping(words);
+        new Four().symbolsInText(words);
+        new Five().split(words);
         new Sixth().mostUsed(words);
 
     }
 }
 class First {
-    LinkedHashSet<String> withoutCapital(List<String> words) throws IOException {
+   void withoutCapital(List<String> words) throws IOException {
         LinkedHashSet<String> strings = new LinkedHashSet<>();
         for (String a : words) {
             String end = a.toLowerCase(Locale.getDefault());
             strings.add(end);
         }
-            //System.out.println(strings); выводить в файл
-        return strings;
+        System.out.println(strings);
+        decreasingLength(strings);
     }
-
     void decreasingLength(LinkedHashSet<String> strings) {
-            //SortedSet<String> sortedSet = new TreeSet<>(String::length);
-        SortedSet<String> sortedSet = new TreeSet<>(String::compareToIgnoreCase);//компаратор который соритрует в лексикограф.порядке
+        SortedSet<String> sortedSet = new TreeSet<>(String::compareToIgnoreCase);
         sortedSet.addAll(strings);
-            //вывести в файл
         System.out.println(sortedSet);
+        decreasingLengthLimited(sortedSet);
     }
     void decreasingLengthLimited(SortedSet<String> sortedSet){
         TreeSet<String> sortedSet2 = new TreeSet<>();
-        TreeSet<String> sortedSet1 = new TreeSet<String>(Comparator.comparing(as -> as.length()));
         for (String i : sortedSet){
             if (i.length()>=4&&i.length()<=7) sortedSet2.add(i);
         }
+        System.out.println(sortedSet2);
     }
 }
 class Second{
     void countUniqueWords(List<String> words){
         Set<String> wordsSet = new HashSet<String>(words);
         for(String s: wordsSet){
-          System.out.println(s + " " + Collections.frequency(wordsSet,s));
+          System.out.println(s + " " + Collections.frequency(words,s));
         }
     }
-    static TreeMap<String,Integer> countUniqueWordsButMap(List<String> words){//2а
-        TreeMap<String,Integer> treeMap = new TreeMap<>();//слово - количество использований, treeset!!
+    void countUniqueWordsButMap(List<String> words){
+        TreeMap<String,Integer> treeMap = new TreeMap<>();
         for (String s:words){
             if (!treeMap.containsKey(s)) treeMap.put(s,Collections.frequency(words,s));
-            //System.out.println(treeMap);
         }
-        return treeMap;
+        System.out.println(treeMap);
+        countUniqueWordsButMapLimited(treeMap);
     }
-    static TreeMap<String, Integer> countUniqueWordsButMapLimited(TreeMap<String,Integer>treeMap){//от 4 до 7
+    void countUniqueWordsButMapLimited(TreeMap<String,Integer>treeMap){
         TreeMap<String,Integer> treeMap1 = new TreeMap<>();
-        for (int i = 0; i <treeMap.size() ; i++) {
-            String key = (String) treeMap.keySet().toArray()[i];
-            Integer value = treeMap1.get(i);
-            if (key.length()>=4 &&key.length()<=7) treeMap1.put(key,value);
-        }
-        return treeMap1;
+        treeMap.entrySet().forEach((k) -> {if (k.getKey().length() >=4&&k.getKey().length()<=7) treeMap1.put(k.getKey(),k.getValue());});
+        System.out.println(treeMap1);
+//        for (int i = 0; i <treeMap.size() ; i++) {
+//            String key = (String) treeMap.keySet().toArray()[i];
+//            Integer value = treeMap1.get(i);
+//            if (key.length()>=4 &&key.length()<=7) treeMap1.put(key,value);
+//        }
+        countUniqueWordsButMapLimitedLexicographical(treeMap1);
     }
-    static void countUniqueWordsButMapLimitedLexicographical(TreeMap<String,Integer>treeMap){
+    void countUniqueWordsButMapLimitedLexicographical(TreeMap<String,Integer>treeMap){
         TreeMap<String,Integer> treeMap1 = new TreeMap<>(String::compareToIgnoreCase);
+        treeMap1.putAll(treeMap);
+        System.out.println(treeMap1);
     }
 }
 class Three {
-    static TreeMap<Integer,Integer> mapping(List<String> words) {
+     void mapping(List<String> words) {
         TreeMap<Integer, Integer> treeMap = new TreeMap<>();//длина слова - количество использований
         for (String s : words){//перебираем слова
             int iter = 0;
@@ -91,7 +89,6 @@ class Three {
             }
         }
         System.out.println(treeMap);
-        return treeMap;
     }
 }
 class Four{
@@ -99,7 +96,6 @@ class Four{
         int COUNT=0;
         for (String s:words){
             for (int i = 0; i < s.length(); i++) {
-                //char ch = s.charAt(i);//берем букову
                 COUNT++;
             }
         }
@@ -119,7 +115,7 @@ class Five {
                 else treeMap.put(ch,0);
             }
         }
-        System.out.println(treeMap);//ВЫВОДИТСЯ В ЛЕКСИКОГРАФИЧЕСКОМ ПОРЯДКЕ, ЗАДАНИЕ 5А ВЫПОЛНЯЕТСЯ ПАРАЛЛЕЛЬНО
+        System.out.println(treeMap);
         decreasingValues(treeMap);
     }
     void decreasingValues(TreeMap<Character,Integer> treeMap){
@@ -133,14 +129,10 @@ class Five {
     }
 }
 class Sixth {
-
-
     void mostUsed(List<String> words) {
         TreeMap<Integer, TreeMap<Integer, String>> multimap = new TreeMap<>();//отображение "длина - количество использования - слово"
         for (String s : words) {//начальное слово
             int sLength = s.length();//берем длину слова
-            s = s.toLowerCase(Locale.getDefault());
-
             TreeMap<Integer, String> mostCommonWords = new TreeMap<>(Collections.reverseOrder());//"самые популярные слова"
             if (!multimap.containsKey(sLength)){
                 for (String word : words){
@@ -155,9 +147,6 @@ class Sixth {
         }
     }
 }
-
-
-
 class Lenin {
 
     static List<String> getWords() throws IOException {
