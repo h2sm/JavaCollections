@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -10,32 +11,46 @@ public class textAnalysis {
         new Lenin();//а где старый
         List<String> words = Lenin.getWords();
         new First().withoutCapital(words);
-        new Second().countUniqueWords(words);
-        new Second().countUniqueWordsButMap(words);
-        new Three().mapping(words);
-        new Four().symbolsInText(words);
-        new Five().split(words);
-        new Sixth().mostUsed(words);
+//        new Second().countUniqueWords(words);
+//        new Second().countUniqueWordsButMap(words);
+//        new Three().mapping(words);
+//        new Four().symbolsInText(words);
+//        new Five().split(words);
+//        new Sixth().mostUsed(words);
 
     }
 }
 class First {
    void withoutCapital(List<String> words) throws IOException {
         LinkedHashSet<String> strings = new LinkedHashSet<>();
-        for (String a : words) {
-            String end = a.toLowerCase(Locale.getDefault());
-            strings.add(end);
-        }
+        strings.addAll(words);
         System.out.println(strings);
         decreasingLength(strings);
+   }
+   void decreasingLength(LinkedHashSet<String> strings) {
+       TreeMap<Integer, SortedSet<String>> sortedMap = new TreeMap<>(Collections.reverseOrder());
+       for (String s : strings){
+           int sLength = s.length();
+           TreeSet<String> newSortedSet = new TreeSet<>();
+           if (!sortedMap.containsKey(sLength)){
+               for (String s1 : strings){
+                   if (s1.length() == sLength){
+                       newSortedSet.add(s1);
+                   }
+               }
+               sortedMap.put(sLength, newSortedSet);
+           }
+       }
+
+       ArrayList<String> sortedList = new ArrayList<>();
+       for (SortedSet<String> s: sortedMap.values()) {
+           sortedList.addAll(s);
+       }
+       System.out.println(sortedList);
+
+       decreasingLengthLimited(sortedList);
     }
-    void decreasingLength(LinkedHashSet<String> strings) {
-        SortedSet<String> sortedSet = new TreeSet<>(String::compareToIgnoreCase);
-        sortedSet.addAll(strings);
-        System.out.println(sortedSet);
-        decreasingLengthLimited(sortedSet);
-    }
-    void decreasingLengthLimited(SortedSet<String> sortedSet){
+    void decreasingLengthLimited(ArrayList<String> sortedSet){
         TreeSet<String> sortedSet2 = new TreeSet<>();
         for (String i : sortedSet){
             if (i.length()>=4&&i.length()<=7) sortedSet2.add(i);
